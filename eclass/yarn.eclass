@@ -49,13 +49,17 @@ if [[ -z ${_YARN_PACKAGE} ]]; then
 
 _YARN_PACKAGE=1
 
-BDEPEND=">=sys-apps/yarn-1.22.4"
+
 
 # Workaround for pkgcheck false positive: https://github.com/pkgcore/pkgcheck/issues/214
 # MissingUnpackerDep: version ...: missing BDEPEND="app-arch/unzip"
 # Added here rather than to each affected package, so it can be cleaned up just
-# once when pkgcheck is improved.
-BDEPEND+=" app-arch/unzip"
+# once when pkgcheck is improved. Also depend on node and yarn.
+BDEPEND+=" app-arch/unzip >=sys-apps/yarn-1.22.4  net-libs/nodejs"
+# Allow packages to use node-gyp to build by including the installed version in ${PATH}
+# Packages using node-gyp can use the node-headers included with the system install of nodejs.
+PATH+=":/usr/lib64/node_modules/npm/bin/node-gyp-bin"
+export npm_config_nodedir=/usr/include/node/
 
 # Set the default cache and offline mirror directory for yarn
 export YARN_CACHE_FOLDER="${T}/yarn-build"

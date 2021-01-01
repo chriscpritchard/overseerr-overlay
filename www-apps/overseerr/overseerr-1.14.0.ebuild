@@ -1956,8 +1956,6 @@ src_unpack() {
 }
 
 src_compile() {
-	PATH="${PATH}:/usr/lib64/node_modules/npm/bin/node-gyp-bin"
-	export npm_config_nodedir=/usr/include/node/
 	yarn ${YARNFLAGS} install|| die "yarn install failed"
 	yarn ${YARNFLAGS} build|| die "build failed"
 	yarn ${YARNFLAGS} install --production --ignore-scripts|| die "yarn install failed"
@@ -1971,6 +1969,14 @@ src_install() {
 	doins -r dist
 	doins -r .next
 	doins -r node_modules
+	doins babel.config.js
+	doins next.config.js
+	doins ormconfig.js
+	doins overseerr-api.yml
+	doins package.json
+	doins postcss.config.js
+	doins stylelint.config.js
+	doins tailwind.config.js
 	find "${D}/usr/lib/overseerr/.next" -type f -print0 | xargs -0 sed -i "s^${WORKDIR}/${P}/^/usr/lib/overseerr/^g"
 	keepdir /var/lib/overseerr/.config/overseerr/db
 	keepdir /var/lib/overseerr/.config/overseerr/logs
