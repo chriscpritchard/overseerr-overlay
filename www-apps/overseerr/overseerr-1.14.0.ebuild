@@ -1969,6 +1969,7 @@ src_install() {
 	doins -r dist
 	doins -r .next
 	doins -r node_modules
+	doins -r public
 	doins babel.config.js
 	doins next.config.js
 	doins ormconfig.js
