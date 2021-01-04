@@ -178,7 +178,7 @@ yarn_src_unpack() {
 	fi
 }
 
-# @FUNCTION: _yarn_src_unpack_gosum
+# @FUNCTION: _yarn_src_unpack_yarnlock
 # @DESCRIPTION:
 # Populate a directory hierarchy with distfiles from EYARN_LOCK and
 # unpack the base distfiles.
@@ -209,6 +209,26 @@ _yarn_src_unpack_yarnlock() {
 	done
 	einfo creating yarnrc
 	echo "yarn-offline-mirror ${yarnoffline_dir}" >> ${YARN_RC}
+}
+
+yarn_live_download() {
+	debug-print-function "${FUNCNAME}" "$@"
+
+	# shellcheck disable=SC2086
+	has live ${PROPERTIES} ||
+		die "${FUNCNAME} only allowed in live ebuilds"
+	[[ "${EBUILD_PHASE}" == unpack ]] ||
+		die "${FUNCNAME} only allowed in src_unpack"
+	[[ -d "${S}"/node_modules ]] &&
+		die "${FUNCNAME} only allowed when node_modules is not included"
+
+	pushd "${S}" >& /dev/null || die
+	einfo creating yarnrc
+	echo "yarn-offline-mirror ${yarnoffline_dir}" >> ${YARN_RC}
+	echo "yarn-offline-mirror-pruning true" >> ${YARN_RC}
+	einfo fetching packages
+	yarn install --ignore-scripts --frozen-lockfile --verbose --modules-folder=yarn_tmp_mods --use-yarnrc=${YARN_RC} || die
+	popd >& /dev/null || die
 }
 
 # @FUNCTION: yarn_pkg_postinst
