@@ -26,17 +26,18 @@
 #
 # @CODE
 #
-# inherit go-module
+# inherit yarn
 #
 # EGO_SUM=(
-#   "github.com/aybabtme/rgbterm v0.0.0-20170906152045-cc83f3b3ce59/go.mod"
-#   "github.com/aybabtme/rgbterm v0.0.0-20170906152045-cc83f3b3ce59"
+#	'resolved "https://registry.yarnpkg.com/yargs/-/yargs-8.0.2.tgz#6299a9055b1cefc969ff7e79c1d918dceb22c360"'
+#	'resolved "https://registry.yarnpkg.com/yn/-/yn-3.1.1.tgz#1e87401a09d767c1d5eab26a6e4c185182d2eb50"'
+#	'resolved "https://registry.yarnpkg.com/yup/-/yup-0.32.8.tgz#16e4a949a86a69505abf99fd0941305ac9adfc39"'
 # )
 #
-# go-module_set_globals
+# yarn_set_globals
 #
 # SRC_URI="https://github.com/example/${PN}/archive/v${PV}.tar.gz -> ${P}.tar.gz
-#		   ${EGO_SUM_SRC_URI}"
+#		   ${EYARN_LOCK_SRC_URI}"
 #
 # @CODE
 
@@ -84,7 +85,7 @@ EXPORT_FUNCTIONS src_unpack pkg_postinst
 # @ECLASS-VARIABLE: EYARN_LOCK
 # @DESCRIPTION:
 # This is an array based on the yarn.lock content from inside the target package.
-# Each array entry must be quoted and contain information from a resolved line from go.sum.
+# Each array entry must be quoted and contain information from a resolved line from yarn.lock.
 #
 # The format of yarn.lock is described upstream here:
 # https://classic.yarnpkg.com/en/docs/yarn-lock/
@@ -242,7 +243,7 @@ yarn_pkg_postinst() {
 	ewarn "Since dependencies are included within the package, security"
 	ewarn "updates will be handled in individual packages and will be"
 	ewarn "difficult for us to track as a distribution."
-	ewarn "For this reason, please update any go packages asap when new"
+	ewarn "For this reason, please update any yarn packages asap when new"
 	ewarn "versions enter the tree or go stable if you are running the"
 	ewarn "stable tree."
 }
