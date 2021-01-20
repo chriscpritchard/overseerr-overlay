@@ -2,7 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-inherit yarn systemd
+PYTHON_COMPAT=( python3_{7..9} )
+inherit yarn systemd python-any-r1
 
 RESTRICT+=" mirror"
 
@@ -1948,14 +1949,22 @@ DEPEND="acct-user/overseerr
 	acct-group/overseerr
 	media-libs/vips
 	net-libs/nodejs
-	sys-apps/yarn"
+	sys-apps/yarn
+	dev-db/sqlite:3"
+BDEPEND="${DEPEND}
+		${PYTHON_DEPS}"
 RDEPEND="${DEPEND}"
+PATCHES=(
+	"${FILESDIR}/${PN}-python3-workaround.patch"
+)
 
 src_unpack() {
 	yarn_src_unpack
 }
 
 src_compile() {
+	export npm_config_sqlite=${get_libdir}
+	export npm_config_build_from_source=true
 	yarn ${YARNFLAGS} install|| die "yarn install failed"
 	yarn ${YARNFLAGS} build|| die "build failed"
 	yarn ${YARNFLAGS} install --production --ignore-scripts|| die "yarn install failed"
