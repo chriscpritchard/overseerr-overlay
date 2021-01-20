@@ -5,7 +5,7 @@ EAPI=7
 PYTHON_COMPAT=( python3_{7..9} )
 inherit yarn systemd python-any-r1
 
-RESTRICT+="mirror"
+RESTRICT+=" mirror"
 
 if [[ ${PV} == *9999 ]]; then
 	inherit git-r3
@@ -33,9 +33,6 @@ DEPEND="acct-user/overseerr
 BDEPEND="${DEPEND}
 		${PYTHON_DEPS}"
 RDEPEND="${DEPEND}"
-PATCHES=(
-	"${FILESDIR}/${PN}-python3-workaround.patch"
-)
 
 src_unpack() {
 	if [[ ${PV} == *9999 ]]; then
