@@ -2,7 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-inherit yarn systemd
+PYTHON_COMPAT=( python3_{7..9} )
+inherit yarn systemd python-any-r1
 
 RESTRICT+=" mirror"
 
@@ -1982,12 +1983,21 @@ PATCHES=(
 )
 
 src_unpack() {
-	yarn_src_unpack
+	if [[ ${PV} == *9999 ]]; then
+		git-r3_src_unpack
+		yarn_live_download
+	else
+		yarn_src_unpack
+	fi
 }
 
 src_compile() {
 	export npm_config_sqlite=${get_libdir}
 	export npm_config_build_from_source=true
+	if [[ ${PV} == *9999 ]]; then
+		export COMMIT_TAG=`git rev-parse HEAD`
+		echo "{\"commitTag\": \"${COMMIT_TAG}\"}" > committag.json
+	fi
 	yarn ${YARNFLAGS} install|| die "yarn install failed"
 	yarn ${YARNFLAGS} build|| die "build failed"
 	yarn ${YARNFLAGS} install --production --ignore-scripts|| die "yarn install failed"

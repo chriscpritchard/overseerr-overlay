@@ -46,6 +46,10 @@ src_unpack() {
 src_compile() {
 	export npm_config_sqlite=${get_libdir}
 	export npm_config_build_from_source=true
+	if [[ ${PV} == *9999 ]]; then
+		export COMMIT_TAG=`git rev-parse HEAD`
+		echo "{\"commitTag\": \"${COMMIT_TAG}\"}" > committag.json
+	fi
 	yarn ${YARNFLAGS} install|| die "yarn install failed"
 	yarn ${YARNFLAGS} build|| die "build failed"
 	yarn ${YARNFLAGS} install --production --ignore-scripts|| die "yarn install failed"
@@ -68,6 +72,7 @@ src_install() {
 	doins postcss.config.js
 	doins stylelint.config.js
 	doins tailwind.config.js
+	doins committag.json
 	find "${D}/usr/lib/overseerr/.next" -type f -print0 | xargs -0 sed -i "s^${WORKDIR}/${P}/^/usr/lib/overseerr/^g"
 	keepdir /var/lib/overseerr/.config/overseerr/db
 	keepdir /var/lib/overseerr/.config/overseerr/logs
