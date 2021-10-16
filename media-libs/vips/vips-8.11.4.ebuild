@@ -29,7 +29,7 @@ RDEPEND="
 	lcms? ( media-libs/lcms )
 	svg? ( gnome-base/librsvg )
 	matio? ( >=sci-libs/matio-1.3.4 )
-	openexr? ( >=media-libs/openexr-1.2.2 )
+	openexr? ( >=media-libs/openexr-1.2.2:* )
 	exif? ( >=media-libs/libexif-0.6 )
 	tiff? ( media-libs/tiff:0= )
 	jpeg? ( virtual/jpeg:0= )
