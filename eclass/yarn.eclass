@@ -43,6 +43,7 @@
 
 case ${EAPI:-0} in
 	7) ;;
+	8) ;;
 	*) die "${ECLASS} EAPI ${EAPI} is not supported."
 esac
 
