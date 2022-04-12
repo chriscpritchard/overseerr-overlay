@@ -8,7 +8,7 @@
 # Chris Pritchard <chris@christopherpritchard.co.uk>
 # William Hubbs <williamh@gentoo.org>
 # Robin H. Johnson <robbat2@gentoo.org>
-# @SUPPORTED_EAPIS: 7
+# @SUPPORTED_EAPIS: 7 8
 # @BLURB: basic eclass for building software using a yarn lockfile
 # @DESCRIPTION:
 # This eclass provides basic settings and functions needed by all software
