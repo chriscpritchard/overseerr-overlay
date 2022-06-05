@@ -12,7 +12,7 @@
 # @BLURB: basic eclass for building software using a yarn lockfile
 # @DESCRIPTION:
 # This eclass provides basic settings and functions needed by all software
-# written using node that uses a yarn lockfile
+# written using node that uses a yarn lockfile. Based heavily off the go eclass.
 #
 # If the software you are packaging  has a file named yarn.lock in its top
 # level directory, it uses yarn and  your ebuild should inherit this
@@ -28,7 +28,7 @@
 #
 # inherit yarn
 #
-# EGO_SUM=(
+# EYARN_LOCK=(
 #	'resolved "https://registry.yarnpkg.com/yargs/-/yargs-8.0.2.tgz#6299a9055b1cefc969ff7e79c1d918dceb22c360"'
 #	'resolved "https://registry.yarnpkg.com/yn/-/yn-3.1.1.tgz#1e87401a09d767c1d5eab26a6e4c185182d2eb50"'
 #	'resolved "https://registry.yarnpkg.com/yup/-/yup-0.32.8.tgz#16e4a949a86a69505abf99fd0941305ac9adfc39"'
