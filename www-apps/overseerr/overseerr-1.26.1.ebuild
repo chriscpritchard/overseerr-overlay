@@ -1983,7 +1983,7 @@ else
 'resolved "https://registry.yarnpkg.com/zen-observable/-/zen-observable-0.8.15.tgz#96415c512d8e3ffd920afd3889604e30b9eaac15"'
 	)
 	yarn_set_globals
-	KEYWORDS="~amd64 ~x86"
+	KEYWORDS="~amd64"
 	SRC_URI="https://github.com/sct/overseerr/archive/v${PV}.tar.gz -> ${P}.tar.gz
 		${EYARN_LOCK_SRC_URI}"
 fi
