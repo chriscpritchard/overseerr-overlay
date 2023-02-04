@@ -1,8 +1,8 @@
 # Copyright 1999-2021 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=7
-inherit autotools multilib-minimal
+EAPI=8
+inherit meson meson-multilib
 
 DESCRIPTION="VIPS Image Processing Library"
 SRC_URI="https://github.com/lib${PN}/lib${PN}/archive/v${PV//_rc/-rc}.tar.gz -> lib${P}.tar.gz"
@@ -62,40 +62,37 @@ src_prepare() {
 	gtkdocize --copy --docdir doc --flavour no-tmpl
 	# ^ the way portage calling it doesn't work, so let's call manually
 
-	eautoreconf
-
 	multilib_copy_sources
 }
 
 multilib_src_configure() {
-	local magick="--without-magick";
-	use imagemagick && magick="--with-magickpackage=MagickCore"
-	use graphicsmagick && magick="--with-magickpackage=GraphicsMagick"
+	local magick="-Dmagick=disabled"
+	use imagemagick && magick="-Dmagick-package=MagickCore"
+	use graphicsmagick && magick="-Dmagick-package=GraphicsMagick"
 
-	econf \
-		${magick} \
-		$(multilib_native_use_enable doc gtk-doc) \
-		$(use_enable debug) \
-		$(use_with debug dmalloc) \
-		$(use_with fftw) \
-		$(use_with lcms) \
-		$(use_with openexr OpenEXR) \
-		$(use_with matio ) \
-		$(use_with exif libexif) \
-		$(use_with png) \
-		$(use_with svg rsvg) \
-		$(use_with tiff) \
-		$(use_with fits cfitsio) \
-		$(use_with jpeg) \
-		$(use_with orc) \
-		$(use_with webp libwebp) \
-		$(use_enable static-libs static) \
-		--with-html-dir="/usr/share/gtk-doc/html"
+	local emesonargs=(
+		${magick}
+		$(meson_native_use_bool doc gtk_doc)
+		$(meson_native_use_bool doc doxygen)
+		$(meson_use debug)
+		$(meson_use static-libs static)
+                $(meson_feature debug dmalloc)
+                $(meson_feature fftw)
+                $(meson_feature lcms)
+                $(meson_feature openexr OpenEXR)
+                $(meson_feature matio )
+                $(meson_feature exif libexif)
+                $(meson_feature png)
+                $(meson_feature svg rsvg)
+                $(meson_feature tiff)
+                $(meson_feature fits cfitsio)
+                $(meson_feature jpeg)
+                $(meson_feature orc)
+                $(meson_feature webp libwebp)
+	)
+	meson_src_configure
 }
 
-multilib_src_install() {
-	emake DESTDIR="${D}" install
-}
 multilib_src_install_all() {
 	einstalldocs
 	find "${D}" -xtype f -name '*.la' -print0
