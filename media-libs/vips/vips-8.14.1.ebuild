@@ -61,8 +61,6 @@ src_prepare() {
 
 	gtkdocize --copy --docdir doc --flavour no-tmpl
 	# ^ the way portage calling it doesn't work, so let's call manually
-
-	multilib_copy_sources
 }
 
 multilib_src_configure() {
