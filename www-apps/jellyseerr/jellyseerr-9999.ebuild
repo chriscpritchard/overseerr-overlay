@@ -67,7 +67,7 @@ src_install() {
 	doins -r public
 	doins babel.config.js
 	doins next.config.js
-	doins jellyseerr-api.yml
+	doins overseerr-api.yml
 	doins package.json
 	doins postcss.config.js
 	doins stylelint.config.js
