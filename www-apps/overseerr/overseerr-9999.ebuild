@@ -23,7 +23,6 @@ HOMEPAGE="https://github.com/sct/overseerr"
 
 LICENSE="MIT"
 SLOT="0"
-IUSE=""
 DEPEND="acct-user/overseerr
 	acct-group/overseerr
 	media-libs/vips
@@ -44,7 +43,7 @@ src_unpack() {
 }
 
 src_compile() {
-	export npm_config_sqlite=${get_libdir}
+	export npm_config_sqlite=/usr/$(get_libdir)
 	export npm_config_build_from_source=true
 	export CYPRESS_INSTALL_BINARY=0
 	if [[ ${PV} == *9999 ]]; then

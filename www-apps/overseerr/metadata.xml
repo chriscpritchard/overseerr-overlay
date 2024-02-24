@@ -5,4 +5,7 @@
 		<email>chris@christopherpritchard.co.uk</email>
 		<name>Chris Pritchard</name>
 	</maintainer>
+        <upstream>
+                <remote-id type="github">sct/overseerr</remote-id>
+        </upstream>
 </pkgmetadata>
